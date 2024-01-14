@@ -32,3 +32,22 @@
     left: 0;
     z-index: 200;
 }
+
+.cardMenu{
+  box-shadow: #3D3B40 0px 2px 4px 0px;
+  border: #000000 1px solid;
+  border-radius: 10px;
+  background-color: #FBAEAE;
+}
+
+.imgMenu{
+  object-fit: fill;
+  border-radius: 10px;
+}
+
+.hargaMenu{
+  font-weight: bold;
+  font-size: 14px;
+}
+
+

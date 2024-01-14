@@ -3,7 +3,7 @@ import React from "react";
 export const Images = () => {
   return (
     <>
-      <div className="container mt-4">
+      <div className="container">
         <div className="row">
           <div className="col">
             <img

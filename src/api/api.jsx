@@ -8,7 +8,7 @@ export const api = {
   },
 
   // Get All Menu
-  getAllMenu: () => {
+  getAllMenuAdmin: () => {
     return baseAPI.get("/dashboard/menu", {
       headers: {
         Authorization: `Bearer ${Cookies.get("token")}`,
@@ -60,7 +60,7 @@ export const api = {
 
   // Get All Menu
   getAllMenu: () => {
-    return baseAPI.get("/menu");
+    return baseAPI.get(`/menu`);
   },
 
   // Get Menu By Id
