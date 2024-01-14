@@ -1,6 +1,7 @@
 import React from "react";
+import { Spin } from "antd";
 
-export const Loading = () => {
+export const LoadingComponent = () => {
   return (
     <>
       <div className="loading">
