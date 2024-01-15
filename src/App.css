@@ -50,4 +50,45 @@
   font-size: 14px;
 }
 
+.imgModal{
+  border-radius: 20px;
+}
 
+.namaMenuModal{
+  font-weight: bold;
+  text-align: center;
+}
+
+.hargaMenuModal{
+  font-weight: bold;
+  color: #E41C1F;
+  text-align: center;
+}
+
+.quantityModal{
+  font-weight: bold;
+  text-align: center;
+  width: 30%
+}
+
+.textKeranjang{
+  font-size: 18px;
+}
+
+.membayar{
+  display: flex;
+  align-items:center;
+  justify-content: space-between;
+  font-size: medium;
+}
+
+.keranjang{
+  display: flex;
+  align-items:center;
+  justify-content: start;
+}
+
+.detailPesanan{
+  font-weight: bold;
+  font-size: medium;
+}

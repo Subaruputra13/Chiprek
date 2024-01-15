@@ -1,8 +1,14 @@
-import React from "react";
-import { DownOutlined, UserOutlined } from "@ant-design/icons";
+import React, { useEffect } from "react";
 import { Select } from "antd";
+import { useCategoryMenuById, useCategoryMenu } from "./useMenu";
 
-export const CategoryMenu = () => {
+export const CategoryMenu = ({ selectedCategory, onSelectCategory }) => {
+  const [isLoadingCategoryMenuId, categoryMenuID, getCategoryMenuById] =
+    useCategoryMenuById();
+  const [isLoadingCategoryMenu, categoryMenu, getCategoryMenu] =
+    useCategoryMenu();
+
+  useEffect(() => {}, [categoryMenu]);
   return (
     <>
       <div className="container d-flex justify-content-center">
@@ -14,20 +20,15 @@ export const CategoryMenu = () => {
               style={{
                 width: 250,
               }}
-              options={[
-                {
-                  value: "Makanan",
-                  label: "Makanan",
-                },
-                {
-                  value: "Minuman",
-                  label: "Minuman",
-                },
-                {
-                  value: "Tambahan",
-                  label: "Tambahan",
-                },
-              ]}
+              value={selectedCategory}
+              onSelect={onSelectCategory}
+              options={
+                categoryMenu &&
+                categoryMenu.map((data) => ({
+                  value: data.id,
+                  label: data.name,
+                }))
+              }
             />
           </div>
         </div>

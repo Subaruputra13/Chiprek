@@ -11,7 +11,6 @@ export const useMenu = () => {
     try {
       setIsLoading(true);
       const res = await api.getAllMenu();
-      console.log(res.data.data);
       setDataMenu(res.data.data);
     } catch (err) {
       console.log(err.response.data.message);
@@ -56,7 +55,7 @@ export const useAddMenuToCart = () => {
         icon: "success",
         title: "Success",
         text: "Berhasil menambahkan menu ke keranjang!",
-        timer: 1500,
+        timer: 2000,
       });
     } catch (err) {
       console.log(err.response.data.message);
@@ -85,4 +84,46 @@ export const useCartByCustomerId = () => {
   }, []);
 
   return [isLoading, dataCart, getCartByCustomerId];
+};
+
+// Get Category Menu
+export const useCategoryMenu = () => {
+  const [dataCategoryMenu, setDataCategoryMenu] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getCategoryMenu = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const res = await api.getAllCategory();
+      // console.log(res.data.data);
+      setDataCategoryMenu(res.data.data);
+    } catch (err) {
+      console.log(err.response.data.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  return [isLoading, dataCategoryMenu, getCategoryMenu];
+};
+
+// Get Category Menu By Id
+export const useCategoryMenuById = () => {
+  const [dataCategoryMenuById, setDataCategoryMenuById] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getCategoryMenuById = useCallback(async (id) => {
+    try {
+      setIsLoading(true);
+      const res = await api.getCategoryById(id);
+      // console.log(res.data.data);
+      setDataCategoryMenuById(res.data.data);
+    } catch (err) {
+      console.log(err.response.data.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  return [isLoading, dataCategoryMenuById, getCategoryMenuById];
 };

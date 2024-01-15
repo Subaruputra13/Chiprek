@@ -4,6 +4,7 @@ import "./App.css";
 import Cookies from "js-cookie";
 import { Routes, Route } from "react-router-dom";
 import { Menu } from "./pages/menu/menu";
+import { Keranjang } from "./pages/keranjang/keranjang";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -20,6 +21,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/menu" element={<Menu />} />
+        <Route path="/keranjang" element={<Keranjang />} />
       </Routes>
     </>
   );

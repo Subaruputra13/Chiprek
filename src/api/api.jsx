@@ -50,7 +50,7 @@ export const api = {
 
   // Get All Category
   getAllCategory: () => {
-    return baseAPI.get("/category");
+    return baseAPI.get(`/category`);
   },
 
   // Get Category By Id
