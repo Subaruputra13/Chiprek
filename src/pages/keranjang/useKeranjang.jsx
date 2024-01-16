@@ -14,7 +14,7 @@ export const useDeleteCart = () => {
       console.log(res.data.data);
       setDataKeranjang(res.data.data);
     } catch (err) {
-      console.log(err.response.data.message);
+      console.log(err.response.data);
     } finally {
       setIsLoading(false);
     }

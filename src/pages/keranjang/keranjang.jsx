@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useCartByCustomerId } from "./../menu/useMenu";
-import { Button, ConfigProvider, Typography } from "antd";
+import { Button, ConfigProvider, Typography, FloatButton } from "antd";
 import { RUPIAH } from "../../helper/helper";
 import { useDeleteCart } from "./useKeranjang";
 import { useNavigate } from "react-router-dom";
@@ -98,7 +98,14 @@ export const Keranjang = () => {
                 </div>
 
                 <div className="col-4">
-                  <p style={{ fontSize: 15, fontWeight: "bold", color: "red" }}>
+                  <p
+                    style={{
+                      fontSize: 15,
+                      fontWeight: "bold",
+                      color: "red",
+                      textAlign: "right",
+                    }}
+                  >
                     {RUPIAH(item.Menu.price)}
                   </p>
                 </div>
@@ -153,11 +160,45 @@ export const Keranjang = () => {
             <div className="row d-flex justify-content-start">
               <div className="col-8"></div>
               <div className="col-4">
-                <p className="" style={{ fontSize: 20, fontWeight: "bold" }}>
+                <p
+                  className=""
+                  style={{ fontSize: 20, fontWeight: "bold", color: "red" }}
+                >
                   {RUPIAH(dataCart.total_price)}
                 </p>
               </div>
             </div>
+            <ConfigProvider
+              theme={{
+                token: {
+                  colorBgElevated: "#E31A1D",
+                  colorText: "#FFFFFF",
+                },
+              }}
+            >
+              <div className="row d-flex justify-content-start">
+                <FloatButton
+                  shape="square"
+                  style={{
+                    position: "sticky",
+                    width: 350,
+                    height: 60,
+                    left: "5%",
+                    bottom: 100,
+                  }}
+                  description={
+                    <div className="container textKeranjang">
+                      <div className="row">
+                        <div className="col-12 ">Pesan Sekarang</div>
+                      </div>
+                    </div>
+                  }
+                  onClick={() => {
+                    navigate("/Pembayaran");
+                  }}
+                />
+              </div>
+            </ConfigProvider>
           </div>
         </>
       )}
