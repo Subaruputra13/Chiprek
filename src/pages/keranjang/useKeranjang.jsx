@@ -1,13 +1,14 @@
 import React from "react";
 import { api } from "../../api/api";
 import { useCallback, useState } from "react";
+import Cookies from "js-cookie";
 
 // Delete Cart Item By Id
 export const useDeleteCart = () => {
   const [dataKeranjang, setDataKeranjang] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
-  const getKeranjang = useCallback(async () => {
+  const deleteKeranjang = useCallback(async () => {
     try {
       setIsLoading(true);
       const res = await api.deleteMenuFromCart();
@@ -20,7 +21,7 @@ export const useDeleteCart = () => {
     }
   }, []);
 
-  return [isLoading, dataKeranjang, getKeranjang];
+  return [isLoading, dataKeranjang, deleteKeranjang];
 };
 
 // Create Transaction

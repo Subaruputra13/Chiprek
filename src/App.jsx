@@ -6,6 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import { Menu } from "./pages/menu/menu";
 import { Keranjang } from "./pages/keranjang/keranjang";
 import { Pembayaran } from "./pages/pembayaran/pembayaran";
+import { RincianPembayaran } from "./pages/pembayaran/ricianPembayaran";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -24,10 +25,7 @@ function App() {
         <Route path="/menu" element={<Menu />} />
         <Route path="/keranjang" element={<Keranjang />} />
         <Route path="/Pembayaran" element={<Pembayaran />} />
-        <Route
-          path="/RincianPembayaran"
-          element={<h1>Rincian Pembayaran</h1>}
-        />
+        <Route path="/RincianPembayaran" element={<RincianPembayaran />} />
       </Routes>
     </>
   );

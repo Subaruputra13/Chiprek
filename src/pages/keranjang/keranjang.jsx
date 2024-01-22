@@ -4,6 +4,7 @@ import { Button, ConfigProvider, Typography, FloatButton } from "antd";
 import { RUPIAH } from "../../helper/helper";
 import { useDeleteCart } from "./useKeranjang";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 export const Keranjang = () => {
   const [isLoadingGetCart, dataCart, getCart] = useCartByCustomerId();

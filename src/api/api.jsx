@@ -93,7 +93,7 @@ export const api = {
 
   // Delete Menu From Cart
   deleteMenuFromCart: (body) => {
-    return baseAPI.delete("/customer/cart", body, {
+    return baseAPI.delete(`/customer/cart`, body, {
       headers: {
         Authorization: `Bearer ${Cookies.get("token")}`,
       },
@@ -103,6 +103,33 @@ export const api = {
   // Create Transaction
   createTransaction: (body) => {
     return baseAPI.post("/customer/transaction", body, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+    });
+  },
+
+  // Get Transaction By Customer Id
+  getTransactionByCustomerId: () => {
+    return baseAPI.get(`/customer/transaction`, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+    });
+  },
+
+  // Get Transaction By Id
+  getTransactionById: (id) => {
+    return baseAPI.get(`/dashboard/menu/transaction/${id}`, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+    });
+  },
+
+  // Get All Transaction
+  getTransaction: () => {
+    return baseAPI.get(`/dashboard/menu/transaction`, {
       headers: {
         Authorization: `Bearer ${Cookies.get("token")}`,
       },

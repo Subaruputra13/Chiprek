@@ -4,8 +4,12 @@ import { Images } from "./images";
 import { Text } from "./text";
 import { Forms } from "./form";
 import { ConfigProvider } from "antd";
+import Cookies from "js-cookie";
 
 export const Home = () => {
+  // clear token
+  Cookies.remove("token");
+
   return (
     <>
       <Header />

@@ -22,11 +22,11 @@ export const Pembayaran = () => {
     console.log(body);
 
     createTransaction(body, () => {
-      //set timer
       Swal.fire({
-        icon: "success",
-        title: "Success",
-        text: "Berhasil melakukan transaksi!",
+        position: "center",
+        icon: "warning",
+        title: "Please wait...",
+        showConfirmButton: false,
         timer: 1500,
       });
       setTimeout(() => {

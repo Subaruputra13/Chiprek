@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { api } from "../../api/api";
 import { useNavigate } from "react-router-dom";
 
@@ -14,10 +14,11 @@ export const useCreateTransaction = () => {
       OnSuccess && OnSuccess();
 
       Swal.fire({
-        icon: "success",
-        title: "Success",
-        text: "Berhasil melakukan transaksi!",
-        timer: 2000,
+        position: "center",
+        icon: "warning",
+        title: "Please wait...",
+        showConfirmButton: false,
+        timer: 1500,
       });
 
       navigate("/RincianPembayaran");
@@ -27,4 +28,22 @@ export const useCreateTransaction = () => {
   }, []);
 
   return [addMenuToCart];
+};
+
+// Get Transaction By Customer Id
+export const useTransactionByCustomerId = () => {
+  const navigate = useNavigate();
+  const [dataTransaction, setDataTransaction] = useState();
+
+  const getTransactionByCustomerId = useCallback(async () => {
+    try {
+      const res = await api.getTransactionByCustomerId();
+      console.log(res.data.data);
+      setDataTransaction(res.data.data);
+    } catch (err) {
+      console.log(err.response);
+    }
+  }, []);
+
+  return [dataTransaction, getTransactionByCustomerId];
 };
