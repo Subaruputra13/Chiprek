@@ -7,6 +7,7 @@ import { Menu } from "./pages/menu/menu";
 import { Keranjang } from "./pages/keranjang/keranjang";
 import { Pembayaran } from "./pages/pembayaran/pembayaran";
 import { RincianPembayaran } from "./pages/pembayaran/ricianPembayaran";
+import { Dashboard } from "./pages/admin/dashboard";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -24,8 +25,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/keranjang" element={<Keranjang />} />
-        <Route path="/Pembayaran" element={<Pembayaran />} />
-        <Route path="/RincianPembayaran" element={<RincianPembayaran />} />
+        <Route path="/pembayaran" element={<Pembayaran />} />
+        <Route path="/rincianpembayaran" element={<RincianPembayaran />} />
+        <Route path="/dashboard/*" element={<Dashboard />} />
       </Routes>
     </>
   );
