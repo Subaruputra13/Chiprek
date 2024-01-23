@@ -1,5 +1,10 @@
 import React from "react";
 import { UserOutlined } from "@ant-design/icons";
+import { Route, Routes } from "react-router-dom";
+import { Dashboard } from "../pages/admin/dashboard";
+import { Transaction } from "../pages/admin/transaction";
+import { Users } from "../pages/admin/users";
+import { Report } from "../pages/admin/report";
 
 export const SideNav = () => {
   return (
@@ -27,7 +32,7 @@ export const SideNav = () => {
                 />
               </div>
               <div className="info">
-                <a href="#" className="d-block">
+                <a href="/" className="d-block">
                   Admin
                 </a>
               </div>
@@ -41,27 +46,26 @@ export const SideNav = () => {
                 role="menu"
                 data-accordion="false"
               >
-                <li className="nav-header">EXAMPLES</li>
                 <li className="nav-item">
-                  <a href="pages/gallery.html" className="nav-link">
+                  <a href="/dashboard" className="nav-link">
                     <i className="nav-icon far fa-image" />
                     <p>Dashboard</p>
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a href="pages/gallery.html" className="nav-link">
+                  <a href="/dashboard/transaksi" className="nav-link">
                     <i className="nav-icon far fa-image" />
                     <p>Transaksi</p>
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a href="pages/gallery.html" className="nav-link">
+                  <a href="/dashboard/pengguna" className="nav-link">
                     <i className="nav-icon far fa-image" />
                     <p>Pengguna</p>
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a href="pages/gallery.html" className="nav-link">
+                  <a href="/dashboard/laporan" className="nav-link">
                     <i className="nav-icon far fa-image" />
                     <p>Laporan</p>
                   </a>
@@ -70,6 +74,12 @@ export const SideNav = () => {
             </nav>
           </div>
         </aside>
+        <Routes>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/transaksi" element={<Transaction />} />
+          <Route path="/dashboard/pengguna" element={<Users />} />
+          <Route path="/dashboard/laporan" element={<Report />} />
+        </Routes>
       </div>
     </>
   );
