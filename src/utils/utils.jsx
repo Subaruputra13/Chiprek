@@ -1,3 +1,3 @@
 export const BASE_URL = {
-  API: `${"http://localhost:8080"}`,
+  API: `${"http://157.230.35.129:8080"}`,
 };
