@@ -34,14 +34,14 @@ function App() {
         <Route path="/rincianpembayaran" element={<RincianPembayaran />} />
         <Route path="/admin" element={<Login />} />
       </Routes>
-      <SideNav>
+      {/* <SideNav>
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/transaksi" element={<Transaction />} />
           <Route path="/dashboard/pengguna" element={<Users />} />
           <Route path="/dashboard/laporan" element={<Report />} />
         </Routes>
-      </SideNav>
+      </SideNav> */}
     </>
   );
 }
