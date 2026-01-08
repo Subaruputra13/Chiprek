@@ -15,9 +15,7 @@ export const Pembayaran = () => {
   const [paymentType, setPaymentType] = useState("");
 
   const handleTransaction = () => {
-    const body = {
-      payment_type: paymentType,
-    };
+    const body = {};
 
     console.log(body);
 
@@ -109,9 +107,9 @@ export const Pembayaran = () => {
                       />
                     </Form.Item>
 
-                    <Form.Item
+                    {/* <Form.Item
                       label="Metode Pembayaran"
-                      name={dataCart.payment_type}
+                      name={dataCart.payment_method}
                       rules={[
                         {
                           required: true,
@@ -131,19 +129,20 @@ export const Pembayaran = () => {
                           { value: "qris", label: "Qris" },
                         ]}
                       />
-                      <Form.Item className="d-flex justify-content-center">
-                        <Button
-                          onClick={handleTransaction}
-                          className="btPemesan my-4 px-5"
-                          size="large"
-                          shape="round"
-                          htmlType="submit"
-                          type="primary"
-                          style={{ fontSize: "medium" }}
-                        >
-                          Bayar Sekarang
-                        </Button>
-                      </Form.Item>
+                    </Form.Item> */}
+                    <Form.Item className="d-flex justify-content-center">
+                      <Button
+                        onClick={handleTransaction}
+                        className="btPemesan my-4 px-5"
+                        size="large"
+                        shape="round"
+                        htmlType="submit"
+                        type="primary"
+                        // disabled={!paymentType}
+                        style={{ fontSize: "medium" }}
+                      >
+                        Bayar Sekarang
+                      </Button>
                     </Form.Item>
                   </Form>
                 </div>

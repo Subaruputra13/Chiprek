@@ -5,6 +5,7 @@ import { useTransactionByCustomerId } from "./usePembayaran";
 import { FORMAT_DATE, FORMAT_DATETIME, RUPIAH } from "../../helper/helper";
 import { useNavigate } from "react-router-dom";
 import { FloatButton, ConfigProvider } from "antd";
+import Cookies from "js-cookie";
 
 const { Text } = Typography;
 
@@ -12,14 +13,15 @@ export const RincianPembayaran = () => {
   const [dataTransactionByCustomerId, getTransactionByCustomerId] =
     useTransactionByCustomerId();
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const handlePayment = () => {
-    setOpen(true);
+  const openInNewTab = (URL) => {
+    window.open(URL + "?utm_source=chiprek", "_blank");
   };
 
-  const closeModal = () => {
-    setOpen(false);
-  };
+  // const closeModal = () => {
+  //   setOpen(false);
+  // };
 
   useEffect(() => {
     getTransactionByCustomerId();
@@ -59,7 +61,7 @@ export const RincianPembayaran = () => {
           </div>
 
           <div className="container">
-            <hr className="my-3" />
+            <hr className="my-2" />
           </div>
 
           <div className="container mb-4">
@@ -72,7 +74,7 @@ export const RincianPembayaran = () => {
                 {dataTransactionByCustomerId.customer_name}
               </div>
               <div className="col-6" style={{ fontWeight: "bold" }}>
-                {FORMAT_DATE(dataTransactionByCustomerId.order_time)}
+                {FORMAT_DATE(dataTransactionByCustomerId.CreatedAt)}
               </div>
             </div>
           </div>
@@ -99,10 +101,10 @@ export const RincianPembayaran = () => {
             </div>
             <div className="row d-flex justify-content-center">
               <div className="col-6" style={{ fontWeight: "bold" }}>
-                {dataTransactionByCustomerId.transaction_id}
+                {dataTransactionByCustomerId.order_id}
               </div>
               <div className="col-6" style={{ fontWeight: "bold" }}>
-                {FORMAT_DATETIME(dataTransactionByCustomerId.order_time)}
+                {FORMAT_DATETIME(dataTransactionByCustomerId.CreatedAt)}
               </div>
             </div>
           </div>
@@ -114,21 +116,31 @@ export const RincianPembayaran = () => {
             </div>
             <div className="row d-flex justify-content-center">
               <div className="col-6" style={{ fontWeight: "bold" }}>
-                {dataTransactionByCustomerId.payment_type === "cash"
-                  ? "Cash"
-                  : "Qris"}
+                {dataTransactionByCustomerId.payment_method === "bank_transfer"
+                  ? "Transfer Bank"
+                  : dataTransactionByCustomerId.payment_method === "gopay"
+                  ? "Gopay"
+                  : dataTransactionByCustomerId.payment_method === "qris"
+                  ? "Qris"
+                  : dataTransactionByCustomerId.payment_method === "shopeepay"
+                  ? "Shopeepay"
+                  : dataTransactionByCustomerId.payment_method === "ovo"
+                  ? "Ovo"
+                  : dataTransactionByCustomerId.payment_method === "dana"
+                  ? "Dana"
+                  : dataTransactionByCustomerId.payment_method}
               </div>
               <div
                 className="col-6"
                 style={{
                   fontWeight: "bold",
                   color:
-                    dataTransactionByCustomerId.status === false
+                    dataTransactionByCustomerId.status === "Waiting for Payment"
                       ? "#E41C1F"
                       : "#65B741",
                 }}
               >
-                {dataTransactionByCustomerId.status === false
+                {dataTransactionByCustomerId.status === "Waiting for Payment"
                   ? "Pending"
                   : "Paid"}
               </div>
@@ -181,18 +193,9 @@ export const RincianPembayaran = () => {
           ))}
 
           <div className="container">
-            <hr className="my-1" />
-          </div>
-
-          <div className="container">
             <div className="row d-flex justify-content-start">
-              <div className="col-12 mt-4">
-                <p
-                  className="mx-2"
-                  style={{ fontSize: 20, fontWeight: "bold" }}
-                >
-                  Total
-                </p>
+              <div className="col-12">
+                <p style={{ fontSize: 20, fontWeight: "bold" }}>Total</p>
               </div>
             </div>
             <div className="row d-flex justify-content-start">
@@ -225,42 +228,66 @@ export const RincianPembayaran = () => {
                 },
               }}
             >
-              <div className="row d-flex justify-content-start">
-                <FloatButton
-                  shape="square"
-                  style={{
-                    position: "sticky",
-                    width: 350,
-                    height: 60,
-                    left: "5%",
-                    bottom: 100,
-                  }}
-                  description={
-                    <div
-                      className="container"
-                      style={{ fontSize: 25, fontWeight: "bolder" }}
-                    >
-                      <div className="row">
-                        <div className="col-12 ">Membayar</div>
-                      </div>
-                    </div>
-                  }
-                  onClick={() => {
-                    handlePayment();
-                  }}
-                />
+              <div className="container mb-4">
+                <div className="row d-flex justify-content-start">
+                  {/* Button untuk membayar dan pesan lagi */}
+                  <div className="col-6">
+                    <FloatButton
+                      shape="square"
+                      style={{
+                        position: "sticky",
+                        width: 170,
+                        height: 60,
+                        left: "5%",
+                        bottom: 100,
+                      }}
+                      description={
+                        <div
+                          className="container"
+                          style={{ fontSize: 25, fontWeight: "bolder" }}
+                        >
+                          <div className="row">
+                            <div className="col-12 ">Membayar</div>
+                          </div>
+                        </div>
+                      }
+                      onClick={() => {
+                        openInNewTab(
+                          `${dataTransactionByCustomerId.payment_url}`
+                        );
+                      }}
+                    />
+                  </div>
+
+                  {/* Button untuk memesan kembali */}
+                  <div className="col-6">
+                    <FloatButton
+                      shape="square"
+                      style={{
+                        position: "sticky",
+                        width: 170,
+                        height: 60,
+                        left: "5%",
+                        bottom: 100,
+                      }}
+                      description={
+                        <div
+                          className="container"
+                          style={{ fontSize: 22, fontWeight: "bolder" }}
+                        >
+                          <div className="row">
+                            <div className="col-12 ">Pesan Lagi?</div>
+                          </div>
+                        </div>
+                      }
+                      onClick={() => {
+                        navigate("/", Cookies.remove("token"));
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
             </ConfigProvider>
-            <Modal centered open={open} onCancel={closeModal} onOk={closeModal}>
-              <h6 className="text-center mb-4">
-                Mohon tunjukkan Kode Transaksi ini kepada Kasir untuk
-                menyelesaikan pesanan Anda.
-              </h6>
-              <h6 className="text-center ">
-                Kode Transaksi:{" "}
-                <b>{dataTransactionByCustomerId.transaction_id}</b>
-              </h6>
-            </Modal>
           </div>
         </>
       )}

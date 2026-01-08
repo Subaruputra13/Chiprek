@@ -8,7 +8,7 @@ import Cookies from "js-cookie";
 
 export const Keranjang = () => {
   const [isLoadingGetCart, dataCart, getCart] = useCartByCustomerId();
-  const [isLoadingDeleteCart, dataDeleteCart, deleteCart] = useDeleteCart();
+  const [isLoadingDeleteCart, deleteCart] = useDeleteCart();
   const navigate = useNavigate();
 
   const { Text } = Typography;
@@ -18,19 +18,16 @@ export const Keranjang = () => {
       cart_item_id: id,
     };
 
-    console.log(body);
-
-    deleteCart(body, () => {
-      getCart();
-    });
+    deleteCart(body, getCart);
   };
 
   useEffect(() => {
     getCart();
   }, []);
+
   return (
     <>
-      {dataCart && (
+      {dataCart && dataCart.CartItem.length > 0 ? (
         <>
           <div className="container">
             <div className="row d-flex justify-content-center">
@@ -39,7 +36,6 @@ export const Keranjang = () => {
               </div>
             </div>
           </div>
-
           <div className="container">
             <div className="row d-flex justify-content-start">
               <div className="col-12 py-1 mt-4">
@@ -73,7 +69,7 @@ export const Keranjang = () => {
                     type="primary"
                     style={{ fontSize: "medium" }}
                     onClick={() => {
-                      navigate("/menu");
+                      navigate("/");
                     }}
                   >
                     Tambah Pesanan
@@ -202,6 +198,65 @@ export const Keranjang = () => {
             </ConfigProvider>
           </div>
         </>
+      ) : (
+        <div className="container">
+          <div className="row d-flex justify-content-center">
+            <div className="col-11 headcol border border-1 rounded-2 py-1 mt-4">
+              <p className="identitas my-1 text-center">Keranjang</p>
+            </div>
+          </div>
+          <div className="row d-flex justify-content-center">
+            <div className="col-12 py-1 mt-4">
+              <p
+                className="my-2 mx-2"
+                style={{ fontSize: 20, fontWeight: "bold" }}
+              >
+                Detail Pesanan
+              </p>
+            </div>
+          </div>
+
+          <div className="row d-flex justify-content-start">
+            <div className="col-12">
+              <ConfigProvider
+                theme={{
+                  components: {
+                    Button: {
+                      colorPrimary: "#E41C1F",
+                      colorPrimaryHover: "#E41C1F",
+                      fontWeight: "bold",
+                    },
+                  },
+                }}
+              >
+                <Button
+                  className="btPemesan px-5"
+                  size="large"
+                  shape="round"
+                  htmlType="submit"
+                  type="primary"
+                  style={{ fontSize: "medium" }}
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                >
+                  Tambah Pesanan
+                </Button>
+              </ConfigProvider>
+            </div>
+          </div>
+
+          <div className="row d-flex justify-content-center">
+            <div className="col-12 py-1 mt-4">
+              <p
+                className="my-2 mx-2"
+                style={{ fontSize: 20, fontWeight: "bold" }}
+              >
+                Keranjang Kosong
+              </p>
+            </div>
+          </div>
+        </div>
       )}
     </>
   );

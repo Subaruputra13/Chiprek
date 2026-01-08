@@ -7,9 +7,9 @@ export const api = {
     return baseAPI.post("/admin", body);
   },
 
-  // Get All Menu
-  getAllMenuAdmin: () => {
-    return baseAPI.get("/dashboard/menu", {
+  // Dasboard Admin
+  getDashboardAdmin: () => {
+    return baseAPI.get(`/dashboard`, {
       headers: {
         Authorization: `Bearer ${Cookies.get("token")}`,
       },
@@ -93,10 +93,11 @@ export const api = {
 
   // Delete Menu From Cart
   deleteMenuFromCart: (body) => {
-    return baseAPI.delete(`/customer/cart`, body, {
+    return baseAPI.delete(`/customer/cart`, {
       headers: {
         Authorization: `Bearer ${Cookies.get("token")}`,
       },
+      data: body,
     });
   },
 
@@ -118,18 +119,72 @@ export const api = {
     });
   },
 
-  // Get Transaction By Id
+  // Get Transaction By Id Admin
   getTransactionById: (id) => {
-    return baseAPI.get(`/dashboard/menu/transaction/${id}`, {
+    return baseAPI.get(`/dashboard/transaction/${id}`, {
       headers: {
         Authorization: `Bearer ${Cookies.get("token")}`,
       },
     });
   },
 
-  // Get All Transaction
+  // Update Transaction Admin
+  updateTransaction: (id, body) => {
+    return baseAPI.put(`/dashboard/transaction/${id}`, body, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+    });
+  },
+
+  // Get All Transaction Admin
   getTransaction: () => {
-    return baseAPI.get(`/dashboard/menu/transaction`, {
+    return baseAPI.get(`/dashboard/transaction`, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+    });
+  },
+
+  // Get All Menu Admin
+  getAllMenuAdmin: () => {
+    return baseAPI.get(`/dashboard/menu`, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+    });
+  },
+
+  // Get Menu By Id Admin
+  getMenuByIdAdmin: (id) => {
+    return baseAPI.get(`/dashboard/menu/${id}`, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+    });
+  },
+
+  // Create Menu Admin
+  createMenuAdmin: (body) => {
+    return baseAPI.post(`/dashboard/menu`, body, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+    });
+  },
+
+  // Update Menu Admin
+  updateMenuAdmin: (id, body) => {
+    return baseAPI.put(`/dashboard/menu/${id}`, body, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+    });
+  },
+
+  // Delete Menu Admin
+  deleteMenuAdmin: (id) => {
+    return baseAPI.delete(`/dashboard/menu/${id}`, {
       headers: {
         Authorization: `Bearer ${Cookies.get("token")}`,
       },

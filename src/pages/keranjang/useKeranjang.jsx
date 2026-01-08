@@ -1,27 +1,25 @@
 import React from "react";
 import { api } from "../../api/api";
 import { useCallback, useState } from "react";
-import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 // Delete Cart Item By Id
 export const useDeleteCart = () => {
-  const [dataKeranjang, setDataKeranjang] = useState();
   const [isLoading, setIsLoading] = useState(false);
-
-  const deleteKeranjang = useCallback(async () => {
+  const navigate = useNavigate();
+  const deleteKeranjang = useCallback(async (body, OnSuccess) => {
     try {
       setIsLoading(true);
-      const res = await api.deleteMenuFromCart();
-      console.log(res.data.data);
-      setDataKeranjang(res.data.data);
+      const res = await api.deleteMenuFromCart(body);
+      OnSuccess && OnSuccess();
     } catch (err) {
-      console.log(err.response.data);
+      navigate("/");
     } finally {
       setIsLoading(false);
     }
   }, []);
 
-  return [isLoading, dataKeranjang, deleteKeranjang];
+  return [isLoading, deleteKeranjang];
 };
 
 // Create Transaction

@@ -7,8 +7,7 @@ import { useNavigate } from "react-router-dom";
 // Create Customer
 export const useCreateCustomer = () => {
   const [isLoading, setLoading] = useState(false);
-  // const navigate = useNavigate();
-
+  const navigate = useNavigate();
   const createCustomer = useCallback(async (body, onSuccess) => {
     try {
       setLoading(true);

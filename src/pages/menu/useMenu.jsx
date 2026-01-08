@@ -1,6 +1,8 @@
 import React, { useCallback, useState } from "react";
 import Swal from "sweetalert2";
+import Cookies from "js-cookie";
 import { api } from "../../api/api";
+import { useNavigate } from "react-router-dom";
 
 // Get All Menu
 export const useMenu = () => {
@@ -31,7 +33,6 @@ export const useMenuById = () => {
     try {
       setIsLoading(true);
       const res = await api.getMenuById(id);
-      console.log(res.data.data);
       setDataMenuById(res.data.data);
     } catch (err) {
       console.log(err.response.data.message);
@@ -48,7 +49,6 @@ export const useAddMenuToCart = () => {
   const addMenuToCart = useCallback(async (body, OnSuccess) => {
     try {
       const res = await api.addMenuToCart(body);
-      console.log(res.data.data);
       OnSuccess && OnSuccess();
 
       Swal.fire({
@@ -69,14 +69,24 @@ export const useAddMenuToCart = () => {
 export const useCartByCustomerId = () => {
   const [dataCart, setDataCart] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const getCartByCustomerId = useCallback(async () => {
     try {
       setIsLoading(true);
       const res = await api.getCartByCustomerId();
-      console.log(res.data.data);
       setDataCart(res.data.data);
     } catch (err) {
+      if (err.response.status === 401) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Silahkan Isi Data Pelanggan dahulu!",
+        });
+
+        Cookies.remove("token");
+        navigate("/pelanggan");
+      }
       console.log(err.response.data.message);
     } finally {
       setIsLoading(false);
@@ -95,7 +105,6 @@ export const useCategoryMenu = () => {
     try {
       setIsLoading(true);
       const res = await api.getAllCategory();
-      // console.log(res.data.data);
       setDataCategoryMenu(res.data.data);
     } catch (err) {
       console.log(err.response.data.message);
@@ -116,7 +125,6 @@ export const useCategoryMenuById = () => {
     try {
       setIsLoading(true);
       const res = await api.getCategoryById(id);
-      // console.log(res.data.data);
       setDataCategoryMenuById(res.data.data);
     } catch (err) {
       console.log(err.response.data.message);

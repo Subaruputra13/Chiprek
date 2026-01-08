@@ -26,9 +26,10 @@ import {
 import { LoadingComponent } from "../../component/loading";
 import { RUPIAH } from "../../helper/helper";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 export const Menu = () => {
-  const [selectedCategory, setSelectedCategory] = useState("Makanan");
+  const [selectedCategory, setSelectedCategory] = useState("Semua Menu");
   const [isLoadingDataMenu, dataMenu, getAllMenu] = useMenu(selectedCategory);
   const [isLoadingDataMenuById, dataMenuById, getMenuById] = useMenuById();
   const [isLoadingCategoryMenuId, categoryMenuID, getCategoryMenuById] =
@@ -40,7 +41,6 @@ export const Menu = () => {
 
   const [open, setOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
-  const [takeAway, setTakeAway] = useState(false);
   const [note, setNote] = useState("");
   const navigate = useNavigate();
 
@@ -51,7 +51,6 @@ export const Menu = () => {
     const body = {
       menu_id: id,
       quantity: quantity,
-      take_away: takeAway,
       note: note,
     };
 
@@ -64,12 +63,17 @@ export const Menu = () => {
 
   const handleGetMenuById = (id) => {
     getMenuById(id);
+    setQuantity(1);
+    setNote("");
     setOpen(true);
   };
 
   const handleSelectCategory = (value) => {
     setSelectedCategory(value);
-    getCategoryMenuById(value);
+    if (value !== "Semua Menu") {
+      // Hanya panggil jika bukan "Semua Menu"
+      getCategoryMenuById(value);
+    }
   };
 
   const handleQuantityChange = (value) => {
@@ -86,11 +90,6 @@ export const Menu = () => {
     }
   };
 
-  const onChangeSwitch = (checked) => {
-    setTakeAway(checked);
-    console.log(`switch to ${checked}`);
-  };
-
   const onNoteChange = (e) => {
     setNote(e.target.value);
   };
@@ -99,11 +98,15 @@ export const Menu = () => {
     navigate("/keranjang");
   };
 
+  const cookies = Cookies.get("token");
+
   useEffect(() => {
     getAllMenu(selectedCategory);
     getCategoryMenu();
-    getCart();
-  }, [selectedCategory]);
+    if (cookies) {
+      getCart();
+    }
+  }, [selectedCategory, cookies, getCart]);
 
   return (
     <>
@@ -126,19 +129,24 @@ export const Menu = () => {
               <div className="col-12 py-3">
                 <Select
                   size="large"
-                  defaultValue="Makanan"
+                  defaultValue="Semua Menu"
                   style={{
                     width: 250,
                   }}
                   value={selectedCategory}
                   onChange={handleSelectCategory}
-                  options={
-                    categoryMenu &&
-                    categoryMenu.map((data) => ({
-                      value: data.ID,
-                      label: data.name,
-                    }))
-                  }
+                  options={[
+                    // Tambahkan opsi "Semua Menu" di paling atas
+                    { value: "Semua Menu", label: "Semua Menu" },
+
+                    // Gunakan spread operator (...) untuk menambahkan sisa kategori dari API
+                    ...(categoryMenu
+                      ? categoryMenu.map((data) => ({
+                          value: data.ID,
+                          label: data.name,
+                        }))
+                      : []),
+                  ]}
                 />
               </div>
             </div>
@@ -146,81 +154,73 @@ export const Menu = () => {
         </>
       </ConfigProvider>
       <Images />
-      {selectedCategory !== "Makanan" && categoryMenuID && (
-        <div className="container d-flex justify-content-center">
-          <div className="row">
-            {categoryMenuID &&
-              categoryMenuID.Menu.map((data) => (
-                <div
-                  className="container d-flex justify-content-center"
-                  key={data.ID}
-                >
-                  <div className="row">
-                    <div className="col-5 py-2">
-                      <Card
-                        className="cardMenu"
-                        style={{ width: 360, height: 110 }}
-                        onClick={() => handleGetMenuById(data.ID)}
-                      >
-                        <Meta
-                          avatar={
-                            <img
-                              className="imgMenu"
-                              style={{ width: 80, height: 75 }}
-                              alt="..."
-                              src={data.image_url}
-                            />
-                          }
-                          title={data.name}
-                          description={
-                            <p className="hargaMenu">{RUPIAH(data.price)}</p>
-                          }
-                        />
-                      </Card>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            {/* <p className="text-center" style={{ paddingBottom: 200 }}>
-              All items are already view
-            </p> */}
-          </div>
-        </div>
-      )}
 
-      {selectedCategory === "Makanan" &&
-        dataMenu &&
-        dataMenu.map((data) => (
-          <div
-            className="container d-flex justify-content-center"
-            key={data.ID}
-          >
-            <div className="row">
-              <div className="col-5 py-2">
-                <Card
-                  className="cardMenu"
-                  style={{ width: 360, height: 110 }}
-                  onClick={() => handleGetMenuById(data.ID)}
-                >
-                  <Meta
-                    avatar={
-                      <img
-                        className="imgMenu"
-                        style={{ width: 80, height: 75 }}
-                        alt="..."
-                        src={data.image_url}
-                      />
-                    }
-                    title={data.name}
-                    description={
-                      <p className="hargaMenu">{RUPIAH(data.price)}</p>
-                    }
-                  />
-                </Card>
+      {selectedCategory === "Semua Menu" // Jika "Semua Menu" dipilih, tampilkan semua menu
+        ? dataMenu &&
+          dataMenu.map((data) => (
+            <div
+              className="container d-flex justify-content-center"
+              key={data.ID}
+            >
+              <div className="row">
+                <div className="col-5 py-2">
+                  <Card
+                    className="cardMenu"
+                    style={{ width: 360, height: 110 }}
+                    onClick={() => handleGetMenuById(data.ID)}
+                  >
+                    <Meta
+                      avatar={
+                        <img
+                          className="imgMenu"
+                          style={{ width: 80, height: 75 }}
+                          alt="..."
+                          src={data.image_url}
+                        />
+                      }
+                      title={data.name}
+                      description={
+                        <p className="hargaMenu">{RUPIAH(data.price)}</p>
+                      }
+                    />
+                  </Card>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        : // Jika bukan "Semua Menu", tampilkan berdasarkan kategori yang dipilih
+          categoryMenuID &&
+          categoryMenuID.Menu.map((data) => (
+            <div
+              className="container d-flex justify-content-center"
+              key={data.ID}
+            >
+              <div className="row">
+                <div className="col-5 py-2">
+                  <Card
+                    className="cardMenu"
+                    style={{ width: 360, height: 110 }}
+                    onClick={() => handleGetMenuById(data.ID)}
+                  >
+                    <Meta
+                      avatar={
+                        <img
+                          className="imgMenu"
+                          style={{ width: 80, height: 75 }}
+                          alt="..."
+                          src={data.image_url}
+                        />
+                      }
+                      title={data.name}
+                      description={
+                        <p className="hargaMenu">{RUPIAH(data.price)}</p>
+                      }
+                    />
+                  </Card>
+                </div>
+              </div>
+            </div>
+          ))}
 
       {dataMenuById && (
         <Modal
@@ -270,18 +270,11 @@ export const Menu = () => {
                     className="quantityModal mx-2"
                     min={1}
                     step={1}
+                    disabled
                     onChange={(value) => handleQuantityChange(value)}
                     value={quantity}
                   />
                   <Button onClick={handleIncrement} icon="+" />
-                </div>
-                <div className="d-flex justify-content-center pt-4">
-                  <Space direction="vertical">
-                    <Switch onChange={onChangeSwitch} />
-                  </Space>
-                  <h5 className="bungkusTag " style={{ paddingLeft: 10 }}>
-                    Bungkus
-                  </h5>
                 </div>
                 <div className="d-flex justify-content-center pt-4">
                   <TextArea

@@ -1,13 +1,14 @@
 import Cookies from "js-cookie";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { loginAdmin } from "./useAdmin";
 import { Form, Input, Button } from "antd";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const [isLoading, loginData] = loginAdmin();
   const navigate = useNavigate();
 
+  // clear token
   Cookies.remove("token");
 
   const handleLogin = (e) => {
@@ -16,9 +17,12 @@ export const Login = () => {
       password: e.password,
     };
 
-    console.log(body);
-
-    loginData(body, () => {});
+    loginData(body, () => {
+      // set timer
+      // setTimeout(() => {
+      //   navigate("/dashboard");
+      // }, 1500);
+    });
   };
   return (
     <>

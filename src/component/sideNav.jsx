@@ -3,8 +3,14 @@ import { UserOutlined } from "@ant-design/icons";
 import { Route, Routes } from "react-router-dom";
 import { Dashboard } from "../pages/admin/dashboard";
 import { Transaction } from "../pages/admin/transaction";
-import { Users } from "../pages/admin/users";
+import { Menus } from "../pages/admin/menus";
 import { Report } from "../pages/admin/report";
+import {
+  DashboardOutlined,
+  TransactionOutlined,
+  ShopOutlined,
+} from "@ant-design/icons";
+import Cookies from "js-cookie";
 
 export const SideNav = () => {
   return (
@@ -31,10 +37,27 @@ export const SideNav = () => {
                   }}
                 />
               </div>
-              <div className="info">
-                <a href="/" className="d-block">
-                  Admin
-                </a>
+              <div className="col-4">
+                <div className="info">
+                  <a href="/" className="d-block">
+                    Admin
+                  </a>
+                </div>
+              </div>
+              <div className="col-6">
+                <div className="info">
+                  <button
+                    type="button"
+                    className="btn btn-default btn-sm d-block"
+                    onClick={() => {
+                      localStorage.clear();
+                      window.location.href = "/admin";
+                      Cookies.remove("token");
+                    }}
+                  >
+                    Logout
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -48,26 +71,20 @@ export const SideNav = () => {
               >
                 <li className="nav-item">
                   <a href="/dashboard" className="nav-link">
-                    <i className="nav-icon far fa-image" />
+                    <DashboardOutlined className="nav-icon far" />
                     <p>Dashboard</p>
                   </a>
                 </li>
                 <li className="nav-item">
                   <a href="/dashboard/transaksi" className="nav-link">
-                    <i className="nav-icon far fa-image" />
+                    <TransactionOutlined className="nav-icon far" />
                     <p>Transaksi</p>
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a href="/dashboard/pengguna" className="nav-link">
-                    <i className="nav-icon far fa-image" />
-                    <p>Pengguna</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="/dashboard/laporan" className="nav-link">
-                    <i className="nav-icon far fa-image" />
-                    <p>Laporan</p>
+                  <a href="/dashboard/menu" className="nav-link">
+                    <ShopOutlined className="nav-icon far" />
+                    <p>Menu</p>
                   </a>
                 </li>
               </ul>
@@ -75,10 +92,9 @@ export const SideNav = () => {
           </div>
         </aside>
         <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/dashboard/transaksi" element={<Transaction />} />
-          <Route path="/dashboard/pengguna" element={<Users />} />
-          <Route path="/dashboard/laporan" element={<Report />} />
+          <Route path="/dashboard/" element={<Dashboard />} />
+          <Route path="/dashboard/transaksi/*" element={<Transaction />} />
+          <Route path="/dashboard/menu/*" element={<Menus />} />
         </Routes>
       </div>
     </>

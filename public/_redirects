@@ -1,2 +1,2 @@
-/api/*   http://157.230.35.129:8080/:splat 200
+/api/*   https://28d14b517699.ngrok-free.app/:splat 200
 /*  /index.html 200

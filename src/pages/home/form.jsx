@@ -18,7 +18,7 @@ export const Forms = () => {
     createCustomer(body, () => {
       //set timer
       setTimeout(() => {
-        navigate("/menu");
+        navigate("/");
       }, 1500);
     });
   };

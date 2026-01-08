@@ -5,5 +5,6 @@ export const baseAPI = axios.create({
   baseURL: BASE_URL.API,
   headers: {
     "Content-Type": "application/json",
+    "ngrok-skip-browser-warning": "true",
   },
 });
