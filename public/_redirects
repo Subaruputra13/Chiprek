@@ -1,0 +1,2 @@
+/api/*   https://28d14b517699.ngrok-free.app/:splat 200
+/*  /index.html 200
