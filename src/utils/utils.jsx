@@ -1,4 +1,4 @@
 export const BASE_URL = {
-  // API: `https://al-foiled-silvia.ngrok-free.dev/`,
-  API: `http://localhost:8080/`,
+  API: `https://chiprek-api.onrender.com/`,
+  //   API: `http://localhost:8080/`,
 };
